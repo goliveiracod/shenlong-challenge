@@ -3,37 +3,26 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { Planet } from '@modules/planet/infra/typeorm/entities/Planet';
 
-@Entity('traveler')
-export class Traveler {
+@Entity('galaxy')
+export class Galaxy {
   @PrimaryColumn('uuid')
   id: string;
 
   @Column()
-  nickname: string;
+  name: string;
 
-  @Column()
-  email: string;
+  @Column('smallint')
+  order: number;
 
-  @Column()
-  password: string;
-
-  @Column()
-  avatar: string;
-
-  @Column()
-  planet_id: string;
-
-  @ManyToOne(() => Planet)
-  @JoinColumn({ name: 'planet_id' })
-  planet: Planet;
+  @OneToMany(() => Planet, planet => planet.galaxy)
+  planets: Planet[];
 
   @CreateDateColumn()
   created_at: Date;
